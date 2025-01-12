@@ -3,17 +3,19 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeeModule } from './coffee/coffee.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     CoffeeModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      username: 'postgres',
-      port: 5432,
-      password: '14031998',
-      database: 'nest_icoffee',
+      host: process.env.DB_HOST,
+      username: process.env.DB_USERNAME,
+      port: Number(process.env.DB_PORT),
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       autoLoadEntities: true,
       synchronize: true,
     }),
